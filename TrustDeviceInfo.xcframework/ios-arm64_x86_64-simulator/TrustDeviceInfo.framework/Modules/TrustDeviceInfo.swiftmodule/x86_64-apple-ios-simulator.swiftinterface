@@ -1,0 +1,162 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.1 effective-4.1.50 (swiftlang-1200.0.41 clang-1200.0.32.8)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -module-name TrustDeviceInfo
+import Alamofire
+import CoreTelephony
+import DeviceKit
+import Foundation
+import Swift
+@_exported import TrustDeviceInfo
+extension CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum KeychainItemAccessibility {
+  @available(iOS 4, *)
+  case afterFirstUnlock
+  @available(iOS 4, *)
+  case afterFirstUnlockThisDeviceOnly
+  @available(iOS 4, *)
+  case always
+  @available(iOS 8, *)
+  case whenPasscodeSetThisDeviceOnly
+  @available(iOS 4, *)
+  case alwaysThisDeviceOnly
+  @available(iOS 4, *)
+  case whenUnlocked
+  @available(iOS 4, *)
+  case whenUnlockedThisDeviceOnly
+  public static func == (a: TrustDeviceInfo.KeychainItemAccessibility, b: TrustDeviceInfo.KeychainItemAccessibility) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+open class KeychainWrapper {
+  public var serviceName: Swift.String {
+    get
+  }
+  public var accessGroup: Swift.String? {
+    get
+  }
+  public init(serviceName: Swift.String, accessGroup: Swift.String)
+  open func hasValue(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  open func accessibilityOfKey(_ key: Swift.String) -> TrustDeviceInfo.KeychainItemAccessibility?
+  open func allKeys() -> Swift.Set<Swift.String>
+  open func integer(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Int?
+  open func float(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Float?
+  open func double(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Double?
+  open func bool(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool?
+  open func string(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.String?
+  open func object(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Foundation.NSCoding?
+  open func data(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Foundation.Data?
+  open func dataRef(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Foundation.Data?
+  @discardableResult
+  open func set(_ value: Swift.Int, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Float, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Double, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Bool, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.String, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Foundation.NSCoding, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Foundation.Data, forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func remove(key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func removeObject(forKey key: Swift.String, withAccessibility accessibility: TrustDeviceInfo.KeychainItemAccessibility? = nil) -> Swift.Bool
+  @discardableResult
+  open func removeAllKeys() -> Swift.Bool
+  open class func wipeKeychain()
+  @objc deinit
+}
+public protocol SIMInfoDelegate : AnyObject {
+  func onCarrierInfoHasChanged(carrier: Swift.String)
+}
+public protocol TrustDeviceInfoDelegate : AnyObject {
+  func onClientCredentialsSaved(savedClientCredentials: TrustDeviceInfo.ClientCredentials)
+  func onTrustIDSaved(savedTrustID: Swift.String)
+  func onRegisterFirebaseTokenSuccess(responseData: TrustDeviceInfo.RegisterFirebaseTokenResponse)
+  func onSendDeviceInfoResponse(status: TrustDeviceInfo.ResponseStatus)
+}
+@_hasMissingDesignatedInitializers public class Identify {
+  public static var shared: TrustDeviceInfo.Identify {
+    get
+  }
+  weak public var simInfoDelegate: TrustDeviceInfo.SIMInfoDelegate?
+  weak public var trustDeviceInfoDelegate: TrustDeviceInfo.TrustDeviceInfoDelegate?
+  public var sendDeviceInfoCompletionHandler: ((TrustDeviceInfo.ResponseStatus) -> Swift.Void)?
+  @objc deinit
+}
+extension Identify {
+  public func enable(sendDeviceInfoOnEnabled: Swift.Bool = true)
+  public func disable()
+}
+public enum Environment : Swift.String {
+  case prod
+  case test
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension Identify {
+  public func set(serviceName: Swift.String, accessGroup: Swift.String)
+  public func set(currentEnvironment: TrustDeviceInfo.Environment)
+  public func getCurrentEnvironment() -> Swift.String
+  public func createClientCredentials(clientID: Swift.String, clientSecret: Swift.String)
+  public func sendDeviceInfo(identityInfo: TrustDeviceInfo.IdentityInfoDataSource? = nil, completionHandler: ((TrustDeviceInfo.ResponseStatus) -> Swift.Void)? = nil)
+  public func setAppState(dni: Swift.String, bundleID: Swift.String)
+  public func registerFirebaseToken(firebaseToken: Swift.String, bundleID: Swift.String)
+  public func hasTrustIDBeenSaved() -> Swift.Bool
+  public func getTrustID() -> Swift.String?
+  public func deleteTrustID() -> Swift.Bool
+  public func getClientCredentials() -> TrustDeviceInfo.ClientCredentials?
+}
+public protocol IdentityInfoDataSource {
+  var dni: Swift.String { get }
+  var name: Swift.String? { get }
+  var lastname: Swift.String? { get }
+  var email: Swift.String? { get }
+  var phone: Swift.String? { get }
+  var appleUserId: Swift.String? { get }
+}
+@_hasMissingDesignatedInitializers public class TrustID : Swift.Decodable, Swift.CustomStringConvertible {
+  @objc deinit
+  required public init(from decoder: Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class ClientCredentials : Swift.Decodable, Swift.CustomStringConvertible {
+  public var accessToken: Swift.String?
+  public var tokenType: Swift.String?
+  required public init(from decoder: Swift.Decoder) throws
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class RegisterFirebaseTokenResponse : Swift.Decodable, Swift.CustomStringConvertible {
+  @objc deinit
+  required public init(from decoder: Swift.Decoder) throws
+}
+public enum ResponseStatus : Swift.String {
+  case created
+  case noChanges
+  case updated
+  case error
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension TrustDeviceInfo.KeychainItemAccessibility : Swift.Equatable {}
+extension TrustDeviceInfo.KeychainItemAccessibility : Swift.Hashable {}
+extension TrustDeviceInfo.Environment : Swift.Equatable {}
+extension TrustDeviceInfo.Environment : Swift.Hashable {}
+extension TrustDeviceInfo.Environment : Swift.RawRepresentable {}
+extension TrustDeviceInfo.ResponseStatus : Swift.Equatable {}
+extension TrustDeviceInfo.ResponseStatus : Swift.Hashable {}
+extension TrustDeviceInfo.ResponseStatus : Swift.RawRepresentable {}

@@ -1,0 +1,11 @@
+framework module TrustDeviceInfo {
+  umbrella header "TrustDeviceInfo.h"
+
+  export *
+  module * { export * }
+}
+
+module TrustDeviceInfo.Swift {
+    header "TrustDeviceInfo-Swift.h"
+    requires objc
+}
